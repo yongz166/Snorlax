@@ -1,0 +1,2 @@
+提示一下：
+$speak = htmlspecialchars($_GET['speak']);

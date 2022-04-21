@@ -1,0 +1,92 @@
+# login.php
+$username = $link->escape_string($_POST['username']);
+    $password = $link->escape_string($_POST['password']);
+    $sql_query = "SELECT * FROM users WHERE username = '{$username}' and password = md5('{$password}')";
+    $result = $link->query($sql_query);
+    if ($row = $result->fetch_assoc()) {
+        $_SESSION['sqli']['username'] = $row['username'];
+        $_SESSION['sqli']['password'] = $password;
+        header("location:sqli_index.php");
+    } else {
+        $html = <<<str
+登录失败，请重新登录！
+str;
+    }
+} else{
+    $html=<<<str
+用户名或密码不得为空！
+str;
+
+# reg.php
+$username = $link->escape_string($_POST['username']);
+    $password = $link->escape_string($_POST['password']);
+    $sql_user = "SELECT username FROM users WHERE username = '{$username}'";
+    $result_user = $link->query($sql_user);
+    if ($result_user->num_rows){
+        $html =<<<str
+用户已存在！点击返回<a href='sqli_login.php' style="color: red">登录</a>
+str;
+    } else{
+        $sql_insert =<<<str
+INSERT INTO users (username,password)
+VALUES ('{$username}',md5('{$password}'))
+str;
+        $result = $link->query($sql_insert);
+        if ($result){
+            $html =<<<str
+注册成功,请返回<a href='sqli_login.php' style="color: red">登录</a>
+str;
+        } else{
+            $html =<<<str
+注册失败,请再次尝试</a>
+str;
+        }
+    }
+
+# index.php
+if(!check_sqli_second_session($link)){
+    session_destroy();
+    header("location:sqli_login.php");
+} else{
+    $html=<<<str
+<h6 style="color: black">Hello，{$_SESSION['sqli']['username']}，欢迎来到个人中心 | <a style="color: blue;" href="sqli_index.php?logout">退出登录</a></h6>
+<a style="color: red;" href="sqli_edit.php">修改密码</a>
+str;
+}
+
+# edit.php
+if(!check_sqli_second_session($link)){
+    session_destroy();
+    header("location:sqli_login.php");
+} else {
+    if(isset($_POST['change'])) {
+        if (!empty($_POST['password'])) {
+            $password = $link->escape_string($_POST['password']);
+            $sql_update = "UPDATE users SET password = md5('{$password}') where username = '{$_SESSION['sqli']['username']}'";
+            $result = $link->query($sql_update);
+            if ($result){
+                session_destroy();
+                echo<<<str
+<script>alert("修改成功，请重新登录~");location.href="sqli_login.php"</script>
+str;
+            } else{
+                $html = $link->error;
+            }
+        }
+    }
+}
+
+# check_sqli_second_session
+function check_sqli_second_session($link){
+    if (isset($_SESSION['sqli']['username']) && isset($_SESSION['sqli']['password'])){
+        $sql_query = "SELECT * FROM users WHERE username = '{$_SESSION['sqli']['username']}' and password = md5('{$_SESSION['sqli']['password']}')";
+        $result = $link->query($sql_query);
+        if($result->num_rows){
+            return true;
+        } else{
+            return false;
+        }
+    }else {
+        return false;
+    }
+}

@@ -1,0 +1,8 @@
+$sql_insert=<<<str
+INSERT INTO httpinfo(ip_address,user_agent,remote_port)
+VALUES ('{$_SERVER['REMOTE_ADDR']}','{$_SERVER['HTTP_USER_AGENT']}','{$_SERVER['REMOTE_PORT']}')
+str;
+$result = $link->query($sql_insert);
+if(!$result){
+    $html = $link->error;
+}

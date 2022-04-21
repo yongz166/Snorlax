@@ -1,0 +1,3 @@
+$id = $_POST['id'];
+$sql_query = "SELECT username,email FROM member WHERE id = '{$id}'";
+$link->multi_query($sql_query);
