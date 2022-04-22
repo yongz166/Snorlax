@@ -32,3 +32,28 @@ Snorlax 是一个基于 PHP 开发且带有 Web 漏洞的靶场合集，在这�
 
 ## 切记
 - 坚持是应对挫折的最好方法。
+
+## 致谢
+- 在此由衷的感谢（以下名单以字母、数字、中文排名）：
+  - c0ny1 
+  - jerryxucy 
+  - moonsec
+  - rosssss
+  - xixixi
+  - zhuifengshaonianhanlu
+  - 11nxx
+  - 笔下光年
+  - 国光
+  - ......
+
+- 靶场参考： 
+  - 前端框架： 
+    - 笔下光年（Light Year Blog） 
+  - 题目设计： 
+    - Pikachu 
+    - Xss-labs
+    - DVWA
+    - Webug4.0
+    - Pentesterlab
+    - Upload-labs
+    - Sqli-labs
