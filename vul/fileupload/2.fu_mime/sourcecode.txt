@@ -1,0 +1,7 @@
+// MIME 类型验证
+$mime = array("image/jpg","image/jpeg","image/png","image/gif");
+if (!in_array($_FILES[$file]['type'],$mime)){
+    $file_data['error'] = "上传的文件只能是 jpg、png、gif 格式的！";
+    $file_data['return'] = false;
+    return $file_data;
+}

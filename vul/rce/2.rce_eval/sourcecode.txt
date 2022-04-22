@@ -1,0 +1,8 @@
+$str = $_GET['string'];
+
+$eval = eval($str.';');
+if(!$eval){
+    $html = "要不~，随便输一个命令~";
+}
+
+# 除了用 NC 还可以怎么获得 Shell 了勒！

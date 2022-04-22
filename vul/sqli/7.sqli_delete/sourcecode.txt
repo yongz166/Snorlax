@@ -1,0 +1,25 @@
+if(isset($_POST['submit'])) {
+    if (isset($_POST['message']) && !empty($_POST['message'])){
+        $message = $link->escape_string($_POST['message']);
+        $sql_insert=<<<str
+INSERT INTO message (content,time)
+VALUES ('{$message}',now())
+str;
+        $result = $link->query($sql_insert);
+        if (!$result){
+            $html = "留言失败，请再次尝试！";
+        }
+    }
+}
+
+if (isset($_GET['id']) && !empty($_GET['id'])){
+    $sql_delete=<<<str
+DELETE FROM message WHERE id={$_GET['id']}
+str;
+    $result = $link->query($sql_delete);
+    if (!$result){
+        $html = "删除失败，请再次尝试！".$link->error;
+    } else{
+        header("location:sqli_delete.php");
+    }
+}

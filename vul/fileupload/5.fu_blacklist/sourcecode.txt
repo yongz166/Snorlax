@@ -1,0 +1,11 @@
+// 黑名单后缀验证
+$black_ext = array("php", "php5", "php4", "php3", "phtm", "htaccess", "ini");
+$filename = $_FILES[$file]['name'];
+$ext = pathinfo($filename)['extension'];
+$filename = str_replace($black_ext,"", $filename);
+if (in_array($ext,$black_ext)){
+    $file_data['error'] = "不允许上传 {$ext} 格式的文件";
+    $file_data['return'] = false;
+    return $file_data;
+}
+// 大家可以想想，Linux 和 Windows 环境下的绕过方式。

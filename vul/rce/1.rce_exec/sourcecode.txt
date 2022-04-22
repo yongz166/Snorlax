@@ -1,0 +1,9 @@
+$ip = $_GET['ip'];
+
+if (stristr(php_uname('s'), 'windows NT')){
+    $result = shell_exec('ping '.$ip);
+} else{
+    $result = shell_exec('ping -c 4 '.$ip);
+}
+
+# 放了个 NC，尝试反弹一下 Shell 吧~
