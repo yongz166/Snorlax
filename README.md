@@ -5,7 +5,7 @@
 ![](https://img.shields.io/badge/License-MIT-yellow)
 
 如果你想搞懂一个漏洞，比较好的方法是："你可以自己先构造出对应漏洞环境（用代码编写），然后再利用它，最后再修复它。" 
-<br /><br />-- zhuifenshaonianhanlu(Pikachu)
+<br /><br />-- zhuifengshaonianhanlu(Pikachu)
 <br />
 
 ## Introduce
