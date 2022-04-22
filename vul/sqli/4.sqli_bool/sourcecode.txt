@@ -1,0 +1,12 @@
+$username = $_POST['username'];
+
+$sql_query = "SELECT * FROM member WHERE username = '{$username}' LIMIT 0,1";
+$result = $link->query($sql_query);
+if ($result->num_rows) {
+    $html = <<<str
+您的账户已存在，可以去登录啦~
+str;
+} else {
+    $html = <<<str
+Sorry, 您输入的 {$username} 不存在，请重新输入！
+str;

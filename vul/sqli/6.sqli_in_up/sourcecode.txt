@@ -1,0 +1,82 @@
+# login.php
+$username = $link->escape_string($_POST['username']);
+$password = $link->escape_string($_POST['password']);
+SELECT * FROM member WHERE username = '{$username}' and passwd = md5('{$password}')";
+$result = $link->query($sql_query);
+if ($result->num_rows) {
+    $_SESSION['sqli']['username'] = $username;
+    $_SESSION['sqli']['password'] = $password;
+    header("location:sqli_index.php");
+
+
+# reg.php
+if (!empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['sex']) && !empty($_POST['phonenum']) && !empty($_POST['address']) && !empty($_POST['email'])) {
+    $sql_user = "SELECT username FROM users WHERE username = '{$_POST['username']}'";
+    $result_user = $link->query($sql_user);
+    if ($result_user->num_rows){
+        $html = "用户已存在！";
+    } else{
+        $sql_insert =<<<str
+INSERT INTO member (username,passwd,sex,phonenum,address,email)
+VALUES ('{$_POST['username']}',md5('{$_POST['password']}'),'{$_POST['sex']}','{$_POST['phonenum']}','{$_POST['address']}','{$_POST['email']}')
+str;
+        $result = $link->query($sql_insert);
+        if ($result){
+            $html =<<<str
+注册成功,请返回<a href='sqli_login.php' style="color: red">登录</a>
+str;
+        } else{
+            $html = $link->error;
+        }
+    }
+}
+
+# index.php
+if(!check_sqli_in_up_session($link)){
+    session_destroy();
+    header("location:sqli_login.php");
+} else{
+    $username = $_SESSION['sqli']['username'];
+    $sql_query = "SELECT * FROM member WHERE username = '{$username}'";
+    $result = $link->query($sql_query);
+    $row = $result->fetch_assoc();
+    $html=<<<str
+<h6 style="color: black">Hello，{$row['username']}，欢迎来到个人中心 | <a style="color: blue;" href="sqli_index.php?logout">退出登录</a></h6>
+<p>性别: {$row['sex']}</p>
+<p>手机: {$row['phonenum']}</p>
+<p>住址: {$row['address']}</p>
+<p>邮箱: {$row['email']}</p>
+<a style="color: red;" href="sqli_edit.php">修改个人信息</a>
+str;
+}
+
+# edit.php
+if(!check_sqli_in_up_session($link)){
+    session_destroy();
+    header("location:sqli_login.php");
+} else {
+    if(isset($_POST['change'])) {
+        if (!empty($_POST['sex']) && !empty($_POST['phonenum']) && !empty($_POST['address']) && !empty($_POST['email'])) {
+            $sql_update = "UPDATE member SET sex = '{$_POST['sex']}',phonenum = '{$_POST['phonenum']}',address = '{$_POST['address']}',email = '{$_POST['email']}' where username = '{$_SESSION['sqli']['username']}'";
+            $result = $link->query($sql_update);
+            if ($result){
+                header("location:sqli_index.php");
+            } else{
+                $html = $link->error;
+            }
+    }
+
+# check_sqli_in_up_session
+function check_sqli_in_up_session($link){
+    if (isset($_SESSION['sqli']['username']) && isset($_SESSION['sqli']['password'])){
+        $sql_query = "SELECT * FROM member WHERE username = '{$_SESSION['sqli']['username']}' and passwd = md5('{$_SESSION['sqli']['password']}')";
+        $result = $link->query($sql_query);
+        if($result->num_rows){
+            return true;
+        } else{
+            return false;
+        }
+    }else {
+        return false;
+    }
+}

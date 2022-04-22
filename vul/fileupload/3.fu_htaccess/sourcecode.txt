@@ -1,0 +1,9 @@
+// 黑名单后缀验证
+$black_ext = array("php", "php3", "php4", "php5", "phtm", "ini");
+$filename = $_FILES[$file]['name'];
+$ext = strtolower(pathinfo($filename)['extension']);
+if (in_array($ext,$black_ext)){
+    $file_data['error'] = "不允许上传 {$ext} 格式的文件";
+    $file_data['return'] = false;
+    return $file_data;
+}

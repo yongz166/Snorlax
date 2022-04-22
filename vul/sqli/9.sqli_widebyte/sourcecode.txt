@@ -1,0 +1,15 @@
+$html = $_GET['id']."<br />";
+    $link->query("SET NAMES gbk");
+    $id = $link->escape_string($_GET['id']);
+    $sql_query = "SELECT username,email FROM member WHERE id = '$id'";
+    $result = $link->query($sql_query);
+    if ($row = $result->fetch_assoc()) {
+        $username = $row['username'];
+        $email = $row['email'];
+        $html = <<<str
+<br />Hello, {$username}<br />Your email is: {$email} ~
+str;
+    } else {
+        $html = <<<str
+<br />Sorry, 您输入的 {$id} 不存在，请重新输入！
+str;

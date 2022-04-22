@@ -1,0 +1,12 @@
+$username = $_POST['username'];
+
+$sql_query = "SELECT * FROM member WHERE username = '{$username}' LIMIT 0,1";
+$result = $link->query($sql_query);
+if ($result->num_rows) {
+    $html .= <<<str
+你猜，这个账户存不存在~
+str;
+} else {
+    $html = <<<str
+你猜，这个账户存不存在~
+str;
