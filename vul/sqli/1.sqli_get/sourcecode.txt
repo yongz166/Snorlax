@@ -1,3 +1,0 @@
-$id = $_GET['id'];
-
-SELECT username,email FROM member WHERE id = {$id}"

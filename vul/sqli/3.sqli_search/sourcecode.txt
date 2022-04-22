@@ -1,3 +1,0 @@
-$username = $_POST['username'];
-
-SELECT * FROM member WHERE username like '%{$username}%'

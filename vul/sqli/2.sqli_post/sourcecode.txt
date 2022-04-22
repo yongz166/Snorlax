@@ -1,3 +1,0 @@
-$id = $_POST['id'];
-
-SELECT username,email FROM member WHERE id = '{$id}'

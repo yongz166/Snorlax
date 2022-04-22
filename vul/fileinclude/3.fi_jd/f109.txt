@@ -1,9 +1,0 @@
-<?php
-/**
- * Created by PhpStorm
- * User: Yongz丶
- */
-
-$html = "flag{no here~}";
-
-// flag{snorlax-2022-3-HEIHEI}
